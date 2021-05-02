@@ -259,54 +259,41 @@ class _ReorderableWrapState extends State<ReorderableWrap> {
       GlobalKey(debugLabel: '$ReorderableWrap overlay key');
 
   // This entry contains the scrolling list itself.
-  late PassthroughOverlayEntry _listOverlayEntry;
 
-  @override
-  void initState() {
-    super.initState();
-    _listOverlayEntry = PassthroughOverlayEntry(
-      opaque: false,
-      builder: (BuildContext context) {
-        return _ReorderableWrapContent(
-          header: widget.header,
-          footer: widget.footer,
-          children: widget.children,
-          direction: widget.direction,
-          scrollDirection: widget.scrollDirection,
-          onReorder: widget.onReorder,
-          onNoReorder: widget.onNoReorder,
-          onReorderStarted: widget.onReorderStarted,
-          padding: widget.padding,
-          buildItemsContainer: widget.buildItemsContainer,
-          buildDraggableFeedback: widget.buildDraggableFeedback,
-          needsLongPressDraggable: widget.needsLongPressDraggable,
-          alignment: widget.alignment,
-          spacing: widget.spacing,
-          runAlignment: widget.runAlignment,
-          runSpacing: widget.runSpacing,
-          crossAxisAlignment: widget.crossAxisAlignment,
-          textDirection: widget.textDirection,
-          verticalDirection: widget.verticalDirection,
-          minMainAxisCount: widget.minMainAxisCount,
-          maxMainAxisCount: widget.maxMainAxisCount,
-          controller: widget.controller,
-          reorderAnimationDuration: widget.reorderAnimationDuration,
-          scrollAnimationDuration: widget.scrollAnimationDuration,
-        );
-      },
+  Widget _child() {
+    return _ReorderableWrapContent(
+      header: widget.header,
+      footer: widget.footer,
+      children: widget.children,
+      direction: widget.direction,
+      scrollDirection: widget.scrollDirection,
+      onReorder: widget.onReorder,
+      onNoReorder: widget.onNoReorder,
+      onReorderStarted: widget.onReorderStarted,
+      padding: widget.padding,
+      buildItemsContainer: widget.buildItemsContainer,
+      buildDraggableFeedback: widget.buildDraggableFeedback,
+      needsLongPressDraggable: widget.needsLongPressDraggable,
+      alignment: widget.alignment,
+      spacing: widget.spacing,
+      runAlignment: widget.runAlignment,
+      runSpacing: widget.runSpacing,
+      crossAxisAlignment: widget.crossAxisAlignment,
+      textDirection: widget.textDirection,
+      verticalDirection: widget.verticalDirection,
+      minMainAxisCount: widget.minMainAxisCount,
+      maxMainAxisCount: widget.maxMainAxisCount,
+      controller: widget.controller,
+      reorderAnimationDuration: widget.reorderAnimationDuration,
+      scrollAnimationDuration: widget.scrollAnimationDuration,
     );
   }
-
+  
   @override
   Widget build(BuildContext context) {
-    final PassthroughOverlay passthroughOverlay = PassthroughOverlay(
-        key: _overlayKey,
-        initialEntries: <PassthroughOverlayEntry>[
-          _listOverlayEntry,
-        ]);
     return widget.ignorePrimaryScrollController
-        ? PrimaryScrollController.none(child: passthroughOverlay)
-        : passthroughOverlay;
+        ? PrimaryScrollController.none(child: _child())
+        : _child();
   }
 }
 
